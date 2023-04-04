@@ -1,10 +1,13 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useMemo, useState } from 'react';
-import { Container } from 'react-bootstrap';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { v4 as uuidV4 } from 'uuid';
+import { Container } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import useLocalStorage from './useLocalStorage';
 
 import NewNote from './components/NewNote';
-import useLocalStorage from './useLocalStorage';
+import NoteList from './components/NoteList';
 
 type Note = {
   id: string;
@@ -44,11 +47,33 @@ function App() {
     });
   }, [notes, tags]);
 
+  function onCreateNote({ tags, ...data }: NoteData) {
+    setNotes((prevNotes) => {
+      return [
+        ...prevNotes,
+        { ...data, id: uuidV4(), tagIds: tags.map((tag) => tag.id) },
+      ];
+    });
+  }
+
+  function addTag(tag: Tag) {
+    setTags((prev) => [...prev, tag]);
+  }
+
   return (
     <Container className='my-4'>
       <Routes>
-        <Route path='/' element={<h1>Home</h1>} />
-        <Route path='/new' element={<NewNote />} />
+        <Route path='/' element={<NoteList availableTags={tags} />} />
+        <Route
+          path='/new'
+          element={
+            <NewNote
+              onSubmit={onCreateNote}
+              onAddTag={addTag}
+              availableTags={tags}
+            />
+          }
+        />
         <Route path='/:id'>
           <Route index element={<h1>Show</h1>} />
           <Route path='edit' element={<h1>Edit</h1>} />
