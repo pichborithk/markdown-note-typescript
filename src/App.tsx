@@ -63,7 +63,10 @@ function App() {
   return (
     <Container className='my-4'>
       <Routes>
-        <Route path='/' element={<NoteList availableTags={tags} />} />
+        <Route
+          path='/'
+          element={<NoteList availableTags={tags} notes={notesWithTags} />}
+        />
         <Route
           path='/new'
           element={
@@ -85,4 +88,4 @@ function App() {
 }
 
 export default App;
-export type { Note, NoteData, Tag };
+export type { Note, NoteData, Tag, RawNote };
