@@ -1,7 +1,6 @@
 import {
   Navigate,
   Outlet,
-  useOutlet,
   useOutletContext,
   useParams,
 } from 'react-router-dom';

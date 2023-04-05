@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import { Container } from 'react-bootstrap';
@@ -12,10 +12,6 @@ import NoteLayout from './components/NoteLayout';
 import Note from './components/Note';
 import EditNote from './components/EditNote';
 
-type Note = {
-  id: string;
-} & NoteData;
-
 type RawNote = {
   id: string;
 } & RawNoteData;
@@ -25,6 +21,10 @@ type RawNoteData = {
   markdown: string;
   tagIds: string[];
 };
+
+type Note = {
+  id: string;
+} & NoteData;
 
 type NoteData = {
   title: string;
